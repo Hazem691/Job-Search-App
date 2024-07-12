@@ -43,7 +43,7 @@ export const updateCompanyValidation = {
       
     }),
     params : joi.object({
-            id : joi.string().custom(objectIdValidation).required() 
+            id : joi.string().required() 
      }).required(),
     headers : generalFields.headers.required()
 }

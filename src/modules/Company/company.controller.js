@@ -48,21 +48,22 @@ export const addCompany = asyncHandler(async (req, res, next) => {
 export const updateComany = asyncHandler(async(req,res,next)=>{
     const { companyName, description, industry, address, numberOfEmployees, companyEmail } = req.body;
     const {id} = req.params ;
-    const company = await companyModel.find({_id: new ObjectId(id),companyHR: req.user._id });
-    const companyid = company[0]._id ;
-    if(! company.length){
+    const company = await companyModel.findOne({_id :id,companyHR: req.user._id });
+   
+    
+    if(! company){
         next(new AppError('The company is not found ...')) ;
     }else{
         const updatedCompany = await companyModel.findByIdAndUpdate(
-            { _id: companyid, companyHR: req.user._id },
-            { $set: {
+            { _id: id, companyHR: req.user._id },
+            { 
                 companyName,
                 description,
                 industry,
                 address,
                 numberOfEmployees,
                 companyEmail
-            } },
+            },
             { new: true}
         );
         res.json({msg :"done",updatedCompany}) ;
